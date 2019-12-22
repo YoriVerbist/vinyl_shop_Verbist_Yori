@@ -61,6 +61,25 @@ class ShopController extends Controller
     // Detail Page: http://vinyl_shop.test/shop/{id} or http://localhost:3000/shop/{id}
     public function show($id)
     {
-        return view('shop.show', ['id' => $id]);  // Send $id to the view
+        $record = Record::with('genre')->findOrFail($id);
+        // dd($record);
+        // Real path to cover image
+        $record->cover = $record->cover ?? "https://coverartarchive.org/release/$record->title_mbid/front-250.jpg";
+        // Combine artist + title
+        $record->title = $record->artist . ' - ' . $record->title;
+        // Links to MusicBrainz API (used by jQuery)
+        // https://wiki.musicbrainz.org/Development/JSON_Web_Service
+        $record->artistUrl = 'https://musicbrainz.org/ws/2/artist/' . $record->artist_mbid . '?inc=url-rels&fmt=json';
+        $record->recordUrl = 'https://musicbrainz.org/ws/2/release/' . $record->title_mbid . '?inc=recordings+url-rels&fmt=json';
+        // If stock > 0: button is green, otherwise the button is red
+        $record->btnClass = $record->stock > 0 ? 'btn-outline-success' : 'btn-outline-danger';
+        // You can't overwrite the attribute genre (object) with a string, so we make a new attribute
+        $record->genreName = $record->genre->name;
+        // Remove attributes you don't need for the view
+        unset($record->genre_id, $record->artist, $record->created_at, $record->updated_at, $record->artist_mbid, $record->title_mbid, $record->genre);
+        $result = compact('record');
+        Json::dump($result);
+        return view('shop.show', $result);  // Pass $result to the view
+
     }
 }

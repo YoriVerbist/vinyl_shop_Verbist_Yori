@@ -37062,14 +37062,23 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*!***********************************!*\
   !*** ./resources/js/vinylShop.js ***!
   \***********************************/
-/*! exports provided: hello */
+/*! exports provided: hello, to_mm_ss */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hello", function() { return hello; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "to_mm_ss", function() { return to_mm_ss; });
 function hello() {
   console.log('The Vinyl Shop JavaScript works! 🙂');
+}
+function to_mm_ss(duration) {
+  var seconds = parseInt(duration / 1000 % 60);
+  var minutes = parseInt(duration / (1000 * 60) % 60);
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+  seconds = seconds < 10 ? '0' + seconds : seconds;
+  duration = minutes + ':' + seconds;
+  return duration;
 }
 
 /***/ }),
