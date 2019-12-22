@@ -1,3 +1,11 @@
 main {
     min-height: 500px;
 }
+
+.cardShopMaster {
+    cursor: pointer;
+}
+
+.cardShopMaster .btn, form .btn {
+    display: none;
+}
