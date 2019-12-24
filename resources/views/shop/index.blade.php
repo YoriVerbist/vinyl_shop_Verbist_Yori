@@ -16,7 +16,7 @@
                 <select class="form-control" name="genre_id" id="genre_id">
                     <option value="%">All genres</option>
                     @foreach($genres as $genre)
-                        <option value="{{ $genre->id }}">
+                        <option value="{{ $genre->id }}"
                             {{ (request()->genre_id ==  $genre->id ? 'selected' : '') }}>{{ $genre->name }}</option>
                     @endforeach
                 </select>

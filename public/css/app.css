@@ -11364,8 +11364,7 @@ main {
   cursor: pointer;
 }
 
-.cardShopMaster .btn,
-form .btn {
+.cardShopMaster {
   display: none;
 }
 
