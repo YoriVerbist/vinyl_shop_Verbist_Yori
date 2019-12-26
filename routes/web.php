@@ -22,5 +22,13 @@ Route::get('contact-us', 'ContactUsController@show');
 Route::post('contact-us', 'ContactUsController@sendEmail');
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::redirect('/', 'records');
+    Route::resource('genres', 'Admin\GenreController');
     Route::get('records', 'Admin\RecordController@index');
+});
+Route::redirect('user', '/user/profile');
+Route::middleware(['auth'])->prefix('user')->group(function () {
+    Route::get('profile', 'User\ProfileController@edit');
+    Route::post('profile', 'User\ProfileController@update');
+    Route::get('password', 'User\PasswordController@edit');
+    Route::post('password', 'User\PasswordController@update');
 });
