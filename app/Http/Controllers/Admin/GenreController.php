@@ -16,12 +16,7 @@ class GenreController extends Controller
      */
     public function index()
     {
-        $genres = Genre::orderBy('name')
-            ->withCount('records')
-            ->get();
-        $result = compact('genres');
-        Json::dump($result);
-        return view('admin.genres.index', $result);
+        return view('admin.genres.index');
     }
 
     /**
@@ -31,9 +26,7 @@ class GenreController extends Controller
      */
     public function create()
     {
-        $genre = new Genre();
-        $result = compact('genre');
-        return view('admin.genres.create', $result);
+        return redirect('admin/genres');
     }
 
     /**
@@ -51,8 +44,10 @@ class GenreController extends Controller
         $genre = new Genre();
         $genre->name = $request->name;
         $genre->save();
-        session()->flash('success', "The genre <b>$genre->name</b> has been added");
-        return redirect('admin/genres');
+        return response()->json([
+            'type' => 'success',
+            'text' => "The genre <b>$genre->name</b> has been added"
+        ]);
     }
 
     /**
@@ -74,9 +69,7 @@ class GenreController extends Controller
      */
     public function edit(Genre $genre)
     {
-        $result = compact('genre');
-        Json::dump($result);
-        return view('admin.genres.edit', $result);
+        return redirect('admin/genres');
     }
 
 
@@ -94,8 +87,10 @@ class GenreController extends Controller
         ]);
         $genre->name = $request->name;
         $genre->save();
-        session()->flash('success', 'The genre has been updated');
-        return redirect('admin/genres');
+        return response()->json([
+            'type' => 'success',
+            'text' => "The genre <b>$genre->name</b> has been updated"
+        ]);
     }
 
     /**
@@ -107,7 +102,18 @@ class GenreController extends Controller
     public function destroy(Genre $genre)
     {
         $genre->delete();
-        session()->flash('success', "The genre <b>$genre->name</b> has been deleted");
-        return redirect('admin/genres');
+        return response()->json([
+            'type' => 'success',
+            'text' => "The genre <b>$genre->name</b> has been deleted"
+        ]);
     }
+
+    public function qryGenres()
+    {
+        $genres = Genre::orderBy('name')
+            ->withCount('records')
+            ->get();
+        return $genres;
+    }
+
 }
