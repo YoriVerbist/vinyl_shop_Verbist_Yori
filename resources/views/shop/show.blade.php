@@ -4,6 +4,22 @@
 
 @section('main')
     <h1>{{ $record->title }}</h1>
+    @include('shared.alert')
+    @auth()
+        @if(auth()->user()->admin)
+            <div class="alert alert-primary">
+                <a href="/admin/records/create" class="btn btn-success">
+                    <i class="fas fa-plus-circle mr-1"></i>New record
+                </a>
+                <a href="/admin/records/{{ $record->id }}/edit" class="btn btn-primary">
+                    <i class="fas fa-edit mr-1"></i>Edit record
+                </a>
+                <a href="#!" class="btn btn-danger" id="deleteRecord">
+                    <i class="fas fa-trash mr-1"></i>Delete record
+                </a>
+            </div>
+        @endif
+    @endauth
     <div class="row">
         <div class="col-sm-4 text-center">
             <img class="img-thumbnail" id="cover" src="/assets/vinyl.png" data-src="{{ $record->cover }}"
@@ -59,6 +75,54 @@
                 .fail(function (error) {
                     console.log("error", error);
                 })
+
+            // Delete this record
+            @auth()
+            @if(auth()->user()->admin)
+            $('#deleteRecord').click(function () {
+                let id = '{{ $record->id }}';
+                console.log(`delete record ${id}`);
+                // Show Noty
+                let modal = new Noty({
+                    timeout: false,
+                    layout: 'center',
+                    modal: true,
+                    type: 'warning',
+                    text: '<p>Delete the record <b>{{ $record->title }}</b>?</p>',
+                    buttons: [
+                        Noty.button('Delete record', 'btn btn-danger', function () {
+                            // Delete record and close modal
+                            let pars = {
+                                '_token': '{{ csrf_token() }}',
+                                '_method': 'delete'
+                            };
+                            $.post(`/admin/records/${id}`, pars, 'json')
+                                .done(function (data) {
+                                    console.log('data', data);
+                                    // Show toast
+                                    new Noty({
+                                        type: data.type,
+                                        text: data.text
+                                    }).show();
+                                    // After 2 seconds, redirect to the public master page
+                                    setTimeout(function () {
+                                        $(location).attr('href', '/shop'); // jQuery
+                                        // window.location = '/shop'; // JavaScript
+                                    }, 2000);
+                                })
+                                .fail(function (e) {
+                                    console.log('error', e);
+                                });
+                            modal.close();
+                        }),
+                        Noty.button('Cancel', 'btn btn-secondary ml-2', function () {
+                            modal.close();
+                        })
+                    ]
+                }).show();
+            });
+            @endif
+            @endauth
 
         });
     </script>

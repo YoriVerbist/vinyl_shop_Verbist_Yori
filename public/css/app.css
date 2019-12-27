@@ -11704,3 +11704,7 @@ main {
   display: none;
 }
 
+.btn[disabled] {
+  cursor: not-allowed;
+}
+

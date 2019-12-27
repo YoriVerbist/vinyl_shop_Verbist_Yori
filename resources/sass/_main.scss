@@ -9,3 +9,7 @@ main {
 .cardShopMaster{
     display: none;
 }
+
+.btn[disabled] {
+    cursor: not-allowed;
+}
