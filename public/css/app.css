@@ -11696,11 +11696,11 @@ main {
   min-height: 500px;
 }
 
-.cardShopMaster {
+.cardShopMaster .btn {
   cursor: pointer;
 }
 
-.cardShopMaster {
+.cardShopMaster .btn {
   display: none;
 }
 

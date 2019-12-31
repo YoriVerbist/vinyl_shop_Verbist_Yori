@@ -56,7 +56,6 @@
             // Replace vinyl.png with real cover
             $('#cover').attr('src', $('#cover').data('src'));
             // Get tracks from MusicBrainz API
-            // Get tracks from MusicBrainz API
             $.getJSON('{{ $record->recordUrl }}')
                 .done(function (data) {
                     console.log(data);

@@ -7,7 +7,7 @@
     <h1>Shop</h1>
     <form method="get" action="/shop" id="searchForm">
         <div class="row">
-            <div class="col-sm-6 mb-2">
+            <div class="col-sm-8 mb-2">
                 <input type="text" class="form-control" name="artist" id="artist"
                        value="{{ request()->artist }}"
                        placeholder="Filter Artist Or Record">
@@ -22,7 +22,7 @@
                 </select>
             </div>
             <div class="col-sm-2 mb-2">
-                <button type="submit" class="btn btn-success btn-block">Search</button>
+                <button type="submit" class="btn btn-success btn-block" style="display: none">Search</button>
             </div>
         </div>
     </form>
